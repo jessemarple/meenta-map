@@ -1,132 +1,67 @@
-<html>
-<head>
-  <title>Meenta Map of US NGS Resources</title>
-  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.js'></script>
-  <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.min.js'></script>
-  <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.css' type='text/css' />
-  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Meenta - Next Generation Sequencers of the US">
+    <meta name="author" content="Stephan Smith">
+    <title>Meenta Map of US NGS Resources</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <link rel="stylesheet" href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.css' type='text/css' />
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
+
+    <link href="dist/bundle.css" rel="stylesheet">
+    <link href="app/custom.css" rel="stylesheet">
+    <script src="dist/bundle.js"></script>
+  </head>
+
+  <body>
+    <main role="main" class="container">
+
+      <div class="headerBox">
+      <h1 class="title" >
+        Meenta.io Genomic Sequencing Map of United States
+      </h1>
+
+      <div class="titlesm">
+        Click on an marker to get organization and instrument details.
+      </div>
+
+      <br>
+      <button href="" class="btn btn-outline-secondary btn-xs btnZoomOut">
+        Zoom Out
+      </button>
+    </div>
+
+      <div id="map"></div>
+
+    </main>
+
+    <footer class="footer">
+      <div class="container" style="text-align: center; padding-left: 40px;">
+        <span class="text-muted">&copy; Meenta 2018</span>
+        &nbsp;|&nbsp;
+        <a href="https://meenta.io" class="text-muted">Learn More</span>
+        &nbsp;|&nbsp;
+        <span class="text-muted" id="visibleCount"></span>
+      </div>
+    </footer>
+  </body>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-91836384-5"></script>
+
   <script>
-    var config = {
-      apiKey: "AIzaSyBFeEzLC7tH2fyEhSXEjA6LxEkfVlFtvXY",
-      authDomain: "samplehub-25c4d.firebaseapp.com",
-      databaseURL: "https://samplehub-25c4d.firebaseio.com",
-      projectId: "samplehub-25c4d",
-      storageBucket: "samplehub-25c4d.appspot.com",
-      messagingSenderId: "529323641154"
-    };
-    firebase.initializeApp(config);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-91836384-5');
   </script>
-</head>
 
-<style>
-body {
-  margin:0;
-  padding:0;
-}
-#map {
-  position:absolute;
-  top:0;
-  bottom:0;
-  width:100%;
-}
-</style>
-
-<body>
-  <h2 style="font-family: arial; position: absolute; margin-top: 10px; top: 0; left: 10; z-index: 1000;">Meenta NGS Map of United States</h2>
-  <i style="font-family: arial; font-size: 13px; color: gray; position: absolute; margin-top: 40px; top: 0; left: 10; z-index: 1000;">Click on an marker to get organization and instrument details.</i>
-
-
-  <div id='map'></div>
-</body>
-
-<script>
-var source, selectedInstrument, map;
-var geoJson = [];
-
-mapboxgl.accessToken = 'pk.eyJ1IjoiYm9kaXp6bGUiLCJhIjoiZHpIenRPYyJ9.AEzrCAWmIDNs56dTTGVZDg';
-//pk.eyJ1IjoibWVlbnRhIiwiYSI6ImNqYnF0eTFoMjA4NGsycHVmbGhpejlzdWIifQ.AevFzpm12KxqAmBZY0rnDw
-
-map = new mapboxgl.Map({
-  container: 'map',
-  style: 'mapbox://styles/mapbox/streets-v8',
-  center: [ -97.0821, 37.6799 ],
-  zoom: 3.4
-});
-
-map.on('load', function() {
-  var fb = firebase.database();
-  var ref = fb.ref('instrument');
-
-  map.addControl(new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken
-  }));
-
-  // Change the cursor to a pointer when the mouse is over the places layer.
-  map.on('mouseenter', 'places', function () {
-    map.getCanvas().style.cursor = 'pointer';
-  });
-
-  // Change it back to a pointer when it leaves.
-  map.on('mouseleave', 'places', function () {
-    map.getCanvas().style.cursor = '';
-  });
-
-  ref.on('value', function(snap) {
-    var geoJson = [];
-    _.each(snap.val(), function(result) {
-      if (result.location) {
-        var pnt = {
-          "type": "Feature",
-          "properties": {
-            "description": "<strong>A Little Night Music</strong><p>The Arlington Players' production of Stephen Sondheim's  <a href=\"http://www.thearlingtonplayers.org/drupal-6.20/node/4661/show\" target=\"_blank\" title=\"Opens in a new window\"><em>A Little Night Music</em></a> comes to the Kogod Cradle at The Mead Center for American Theater (1101 6th Street SW) this weekend and next. 8:00 p.m.</p>",
-            "icon": "marker",
-            "organization": result.address.organization,
-            "instrument": result
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [ result.location.lng, result.location.lat ]
-          }
-        }
-        geoJson.push(pnt);
-      }
-    });
-
-    var layer =  {
-      "id": "instruments",
-      "type": "symbol",
-      "source": {
-        "type": "geojson",
-        "data": {
-          "type": "FeatureCollection",
-          "features": geoJson
-        }
-      },
-      "layout": {
-        "icon-image": "{icon}-15",
-        "text-field": "{organization}",
-        "text-offset": [0, 2],
-        "text-size": 9,
-        "icon-allow-overlap": true
-      }
-    };
-
-    map.addLayer(layer);
-
-    map.on('click', 'instruments', function (e) {
-      var instrument = JSON.parse(e.features[0].properties.instrument);
-      var html = "<b>" + instrument.address.organization + '</b><br>' + instrument.equipment.name + '<br>' + instrument.address.city + ', ' + instrument.address.state;
-
-      new mapboxgl.Popup()
-      .setLngLat(e.lngLat)
-      .setHTML(html)
-      .addTo(map);
-    });
-  });
-});
-</script>
+  <!-- Start of HubSpot Embed Code -->
+  <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/2910074.js"></script>
+  <!-- End of HubSpot Embed Code -->
 
 </html>
