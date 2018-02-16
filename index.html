@@ -33,7 +33,9 @@ body {
 }
 </style>
 
-<div id='map'></div>
+<body>
+  <div id='map'></div>
+</body>
 
 <script>
 var source, selectedInstrument, map;
@@ -50,29 +52,8 @@ map = new mapboxgl.Map({
 });
 
 map.on('load', function() {
-
   var fb = firebase.database();
   var ref = fb.ref('instrument');
-
-  // map.addLayer({
-  //   'id': 'instruments',
-  //   'type': 'symbol',
-  //   'source': 'instrumentData',
-  //   "paint": {
-  //     "text-color": "#000",
-  //     "text-halo-color": "#EFEFEF",
-  //     "text-halo-width": 0
-  //   },
-  //   "layout": {
-  //     "text-field": "{organization}",
-  //     "visibility": "visible",
-  //     "icon-image": "{icon}-15",
-  //     "icon-allow-overlap": true,
-  //     "icon-size" : 1,
-  //     "text-offset": [0, 2],
-  //     "text-size": 9
-  //   }
-  // });
 
   // Change the cursor to a pointer when the mouse is over the places layer.
   map.on('mouseenter', 'places', function () {
@@ -85,7 +66,6 @@ map.on('load', function() {
   });
 
   ref.on('value', function(snap) {
-
     var geoJson = [];
     _.each(snap.val(), function(result) {
       if (result.location) {
@@ -123,7 +103,7 @@ map.on('load', function() {
         "text-size": 9,
         "icon-allow-overlap": true
       }
-    }
+    };
 
     map.addLayer(layer);
 
@@ -136,26 +116,8 @@ map.on('load', function() {
       .setHTML(html)
       .addTo(map);
     });
-
-    // map.on('click', 'instruments', function (e) {
-    //
-    //   alert('asdf')
-    //   // if (map.getZoom() < 10) {
-    //   //   map.flyTo({ center: [ e.lngLat.lng, e.lngLat.lat ], zoom: 10 });
-    //   // } else {
-    //   //   map.flyTo({ center: [ e.lngLat.lng, e.lngLat.lat ] });
-    //   // }
-    //   //
-    //   // // If we have features, then show the first one.
-    //   // if (!_.isEmpty(e.features)) {
-    //   //   var r = JSON.parse(_.first(e.features).properties.result);
-    //   //   selectedInstrument = r;
-    //   // }
-    // });
   });
-
 });
-
-
-
 </script>
+
+</html>
