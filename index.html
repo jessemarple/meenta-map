@@ -2,21 +2,22 @@
 <head>
   <title>Meenta Map of US NGS Resources</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.js'></script>
   <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.min.js'></script>
+  <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.css' type='text/css' />
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
   <script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyBFeEzLC7tH2fyEhSXEjA6LxEkfVlFtvXY",
-    authDomain: "samplehub-25c4d.firebaseapp.com",
-    databaseURL: "https://samplehub-25c4d.firebaseio.com",
-    projectId: "samplehub-25c4d",
-    storageBucket: "samplehub-25c4d.appspot.com",
-    messagingSenderId: "529323641154"
-  };
-  firebase.initializeApp(config);
+    var config = {
+      apiKey: "AIzaSyBFeEzLC7tH2fyEhSXEjA6LxEkfVlFtvXY",
+      authDomain: "samplehub-25c4d.firebaseapp.com",
+      databaseURL: "https://samplehub-25c4d.firebaseio.com",
+      projectId: "samplehub-25c4d",
+      storageBucket: "samplehub-25c4d.appspot.com",
+      messagingSenderId: "529323641154"
+    };
+    firebase.initializeApp(config);
   </script>
 </head>
 
@@ -34,6 +35,10 @@ body {
 </style>
 
 <body>
+  <h2 style="font-family: arial; position: absolute; margin-top: 10px; top: 0; left: 10; z-index: 1000;">Meenta NGS Map of United States</h2>
+  <i style="font-family: arial; font-size: 13px; color: gray; position: absolute; margin-top: 40px; top: 0; left: 10; z-index: 1000;">Click on an marker to get organization and instrument details.</i>
+
+
   <div id='map'></div>
 </body>
 
@@ -54,6 +59,10 @@ map = new mapboxgl.Map({
 map.on('load', function() {
   var fb = firebase.database();
   var ref = fb.ref('instrument');
+
+  map.addControl(new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken
+  }));
 
   // Change the cursor to a pointer when the mouse is over the places layer.
   map.on('mouseenter', 'places', function () {
