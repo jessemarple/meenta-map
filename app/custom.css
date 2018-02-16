@@ -63,3 +63,19 @@ body {
   font-size: 12px;
   color: #585858;
 }
+
+#popUpBox {
+  width: 400px;
+  font-size: 14px;
+  color: #585858;
+}
+
+#popUpBox h1 {
+  color: #585858;
+  font-size: 20px !important;
+}
+
+#popUpBox p {
+  color: #585858;
+  font-size: 14px !important;
+}

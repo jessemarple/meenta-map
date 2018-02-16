@@ -19,12 +19,13 @@ $( document ).ready(function() {
 
   map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v8',
+    style: 'mapbox://styles/mapbox/light-v9',
     center: [ -97.0821, 37.6799 ],
     zoom: 4.26
   });
 
   map.on('load', function() {
+
     var fb = firebase.database();
     var ref = fb.ref('instrument');
 
@@ -56,48 +57,49 @@ $( document ).ready(function() {
     });
 
     $('.btnZoomOut').on('click', function() {
-      map.flyTo({center: [ -97.0821, 37.6799 ], zoom: 2 });
+      map.flyTo({center: [ -97.0821, 37.6799 ], zoom: 4.26 });
     });
 
-    ref.on('value', function(snap) {
+    ref.once('value', function(snap) {
       var geoJson = [];
-      _.each(snap.val(), function(result) {
+      console.log('Total', _.size(snap.val()));
+      _.each(snap.val(), function(result, instrumentId) {
         if (result.location) {
           var pnt = {
-            'type': "Feature",
-            'properties': {
-              'description': "<strong>A Little Night Music</strong><p>The Arlington Players' production of Stephen Sondheim's  <a href=\"http://www.thearlingtonplayers.org/drupal-6.20/node/4661/show\" target=\"_blank\" title=\"Opens in a new window\"><em>A Little Night Music</em></a> comes to the Kogod Cradle at The Mead Center for American Theater (1101 6th Street SW) this weekend and next. 8:00 p.m.</p>",
-              'icon': "marker",
-              'organization': result.address.organization,
-              'instrument': result
+            type: 'Feature',
+            properties: {
+              icon: 'marker',
+              organization: result.address.organization,
+              instrument: result,
+              instrumentId: instrumentId
             },
-            'geometry': {
-              'type': "Point",
-              'coordinates': [ result.location.lng, result.location.lat ]
+            geometry: {
+              type: 'Point',
+              coordinates: [ result.location.lng, result.location.lat ]
             }
           }
           geoJson.push(pnt);
         } else {
-          console.log(result.address.organization, result.equipment.name, result.address);
+          console.log(instrumentId, result.address.organization, result.equipment.name, `https://app.meenta.io/main/lab/${instrumentId}/summary`);
         }
       });
 
       var layer =  {
-        id: "instruments",
-        type: "symbol",
+        id: 'instruments',
+        type: 'symbol',
         source: {
-          type: "geojson",
+          type: 'geojson',
           data: {
-            type: "FeatureCollection",
+            type: 'FeatureCollection',
             features: geoJson
           }
         },
-        "layout": {
-          "icon-image": "{icon}-15",
-          "text-field": "{organization}",
-          "text-offset": [0, 3],
-          "text-size": 10,
-          "icon-allow-overlap": true
+        layout: {
+          'icon-image': "{icon}-15",
+          'text-field': "{organization}",
+          'text-offset': [0, 3],
+          'text-size': 10,
+          'icon-allow-overlap': true
         }
       };
 
@@ -107,11 +109,10 @@ $( document ).ready(function() {
 
       map.on('click', 'instruments', function (e) {
         var instrument = JSON.parse(e.features[0].properties.instrument);
-        var html = "<b>" + instrument.address.organization + '</b><br>' + instrument.equipment.name + '<br>' + instrument.address.city + ', ' + instrument.address.state;
-        new mapboxgl.Popup()
-        .setLngLat(e.lngLat)
-        .setHTML(html)
-        .addTo(map);
+        var html = '<div id="popUpBox"><h1>' + instrument.address.organization + '</h1><b>Instrument:</b> ' + instrument.equipment.name + '<br><b>Where:</b> ' + instrument.address.city + ', ' + instrument.address.state + '<br><b>id:</b> ' + e.features[0].properties.instrumentId + '</div>';
+        // html = html + `<br><a href="https://app.meenta.io/machine/${e.features[0].properties.instrumentId}" target="_blank">More</a>`
+
+        new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(html).addTo(map);
       });
 
     });
