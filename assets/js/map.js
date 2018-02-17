@@ -23,7 +23,7 @@ $( document ).ready(function() {
     container: 'map',
     style: 'mapbox://styles/mapbox/light-v9',
     center: [ -97.0821, 37.6799 ],
-    zoom: 4
+    zoom: 3.4
   });
 
   map.on('load', function() {
@@ -218,6 +218,9 @@ $( document ).ready(function() {
       visibleCount.text('Total Instruments: ' + geoJson.length);
 
       fit();
+
+      setTimeout(function(){ $('.loader').hide(); }, 1000);
+
 
       map.on('click', 'instruments', function (e) {
         var instrument = JSON.parse(e.features[0].properties.instrument);

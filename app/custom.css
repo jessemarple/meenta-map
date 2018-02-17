@@ -79,3 +79,21 @@ body {
   color: #585858;
   font-size: 14px !important;
 }
+
+.loader {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #2977D2;
+  border-radius: 50%;
+  width: 70px;
+  position: fixed; /* or absolute */
+  top: 40%;
+  left: 50%;
+  height: 70px;
+  z-index: 9999;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

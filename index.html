@@ -1,78 +1,77 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Meenta - Next Generation Sequencers of the US">
-    <meta name="author" content="Stephan Smith">
-    <title>Meenta Map of US NGS Resources</title>
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-196x196.png" sizes="196x196" />
-    <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-16x16.png" sizes="16x16" />
-    <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-128.png" sizes="128x128" />
-    <link rel="stylesheet" href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.css' type='text/css' />
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Meenta - Next Generation Sequencers of the US">
+  <meta name="author" content="Stephan Smith">
+  <title>Meenta Map of US NGS Resources</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-196x196.png" sizes="196x196" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-16x16.png" sizes="16x16" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-128.png" sizes="128x128" />
+  <link rel="stylesheet" href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.css' type='text/css' />
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
 
-    <script src='https://api.mapbox.com/mapbox.js/plugins/geojson-extent/v0.0.1/geojson-extent.js'></script>
-    <link href="dist/bundle.css" rel="stylesheet">
-    <link href="app/custom.css" rel="stylesheet">
-    <script src="dist/bundle.js"></script>
-  </head>
+  <script src='https://api.mapbox.com/mapbox.js/plugins/geojson-extent/v0.0.1/geojson-extent.js'></script>
+  <link href="dist/bundle.css" rel="stylesheet">
+  <link href="app/custom.css" rel="stylesheet">
+  <script src="dist/bundle.js"></script>
+</head>
 
-  <body>
-    <main role="main" class="container">
+<body>
 
-      <div class="headerBox">
-        <h1 class="title">
-          Genomic Sequencing in US
-        </h1>
+  <main role="main" class="container">
 
-        <!--
-        <div class="titlesm">
-          <i>Hint: Click on an marker to get organization and instrument details.</i>
-        </div>
-        -->
-      </div>
+    <div class="headerBox">
+      <h1 class="title">
+        Genomic Sequencing in US
+      </h1>
 
-      <div id="map"></div>
-    </main>
+    </div>
 
-    <footer class="footer" style="border-top: 1px solid #DFDFDF;">
-      <div class="container" style="text-align: center; padding-left: 40px;">
-        <a href="https://meenta.io" target="_blank">
-          <img src="https://meenta.io/images/favs/favicon-32x32.png" title="Meenta.io">
-        </a>
-        &nbsp;&nbsp;
-        <span class="text-muted">&copy; Meenta 2018</span>
-        &nbsp;|&nbsp;
-        <a href="https://meenta.io" target="_blank" class="text-muted">Learn More</a>
-        &nbsp;|&nbsp;
-        <!-- <span class="text-muted" id="visibleCount">Loading...</span>
-        &nbsp;|&nbsp; -->
-        <span class="text-muted">Updated Feb. 16th 2018</span>
-        &nbsp;|&nbsp;
-        <a href="#" style="color: #000;" class="btnZoomOut">
-          Clear?
-        </a>
-      </div>
-    </footer>
-  </body>
+    <div id="map"></div>
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-91836384-5"></script>
+    <div class="loader"></div>
 
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+  </main>
 
-    gtag('config', 'UA-91836384-5');
-  </script>
+  <footer class="footer" style="border-top: 1px solid #DFDFDF;">
+    <div class="container" style="text-align: center; padding-left: 40px;">
+      <a href="https://meenta.io" target="_blank">
+        <img src="https://meenta.io/images/favs/favicon-32x32.png" title="Meenta.io">
+      </a>
+      &nbsp;&nbsp;
+      <span class="text-muted">&copy; Meenta 2018</span>
+      &nbsp;|&nbsp;
+      <a href="https://meenta.io" target="_blank" class="text-muted">Learn More</a>
+      &nbsp;|&nbsp;
+      <!-- <span class="text-muted" id="visibleCount">Loading...</span>
+      &nbsp;|&nbsp; -->
+      <span class="text-muted">Updated Feb. 16th 2018</span>
+      &nbsp;|&nbsp;
+      <a href="#" style="color: #000;" class="btnZoomOut">
+        Clear?
+      </a>
+    </div>
+  </footer>
+</body>
 
-  <!-- Start of HubSpot Embed Code -->
-  <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/2910074.js"></script>
-  <!-- End of HubSpot Embed Code -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-91836384-5"></script>
+
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'UA-91836384-5');
+</script>
+
+<!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/2910074.js"></script>
+<!-- End of HubSpot Embed Code -->
 
 </html>
