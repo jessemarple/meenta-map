@@ -42,13 +42,13 @@ body {
 .headerBox {
   border:1px solid #DFDFDF;
   background-color: #fff;
-  top: 2px;
-  left: 2px;
+  top: 3px;
+  left: 3px;
   padding: 10px;
-  width: 550px;
+  min-width: 300px;
   position: absolute;
-  max-width: 1000px;
-  min-height: 80px;
+  border-radius: 2px;
+  #min-height: 20px;
   z-index: 1000;
 }
 
@@ -56,11 +56,11 @@ body {
   position: relative;
   font-size: 19px;
   color: #585858;
-  text-shadow: 1px 1px #fff;
+  margin: 0px;
 }
 
 .titlesm {
-  font-size: 12px;
+  font-size: 10px;
   color: #585858;
 }
 

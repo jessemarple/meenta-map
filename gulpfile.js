@@ -4,12 +4,22 @@ const sourcemaps = require('gulp-sourcemaps')
 const concat = require('gulp-concat')
 const uglify = require('gulp-uglifyjs')
 const gutil = require('gulp-util')
+const batch = require('gulp-batch')
+const watch = require('gulp-watch')
 
 gulp.task('css', function () {
 
   return gulp.src('assets/css/*.css')
     .pipe(concatCss('bundle.css'))
     .pipe(gulp.dest('dist/'))
+
+});
+
+gulp.task('watch', function() {
+
+	watch('assets/js/*.js', batch(function(events, done) {
+		gulp.start('app', done);
+	}))
 
 });
 

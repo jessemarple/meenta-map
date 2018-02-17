@@ -7,16 +7,15 @@
     <meta name="author" content="Stephan Smith">
     <title>Meenta Map of US NGS Resources</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-
     <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-196x196.png" sizes="196x196" />
     <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-16x16.png" sizes="16x16" />
     <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-128.png" sizes="128x128" />
-
     <link rel="stylesheet" href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.css' type='text/css' />
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
 
+    <script src='https://api.mapbox.com/mapbox.js/plugins/geojson-extent/v0.0.1/geojson-extent.js'></script>
     <link href="dist/bundle.css" rel="stylesheet">
     <link href="app/custom.css" rel="stylesheet">
     <script src="dist/bundle.js"></script>
@@ -27,17 +26,17 @@
 
       <div class="headerBox">
         <h1 class="title">
-          Meenta.io Genomic Sequencing Map of United States
+          Genomic Sequencing in US
         </h1>
 
+        <!--
         <div class="titlesm">
           <i>Hint: Click on an marker to get organization and instrument details.</i>
         </div>
-
+        -->
       </div>
 
       <div id="map"></div>
-
     </main>
 
     <footer class="footer" style="border-top: 1px solid #DFDFDF;">
@@ -50,8 +49,8 @@
         &nbsp;|&nbsp;
         <a href="https://meenta.io" target="_blank" class="text-muted">Learn More</a>
         &nbsp;|&nbsp;
-        <span class="text-muted" id="visibleCount">Loading...</span>
-        &nbsp;|&nbsp;
+        <!-- <span class="text-muted" id="visibleCount">Loading...</span>
+        &nbsp;|&nbsp; -->
         <span class="text-muted">Updated Feb. 16th 2018</span>
         &nbsp;|&nbsp;
         <a href="#" style="color: #000;" class="btnZoomOut">
